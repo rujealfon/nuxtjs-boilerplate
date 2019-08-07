@@ -78,6 +78,12 @@ export default {
     '@nuxtjs/dotenv'
   ],
 
+  // Doc: https://bootstrap-vue.js.org/docs/#nuxtjs-module
+  bootstrapVue: {
+    components: ['BModal'],
+    directives: ['VBModal']
+  },
+
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -86,7 +92,7 @@ export default {
     // See https://github.com/nuxt-community/axios-module#options
     baseURL:
       process.env.NODE_ENV === 'development'
-        ? 'https://localhost:44389'
+        ? 'https://localhost:8000'
         : process.env.BASE_URL
   },
 
