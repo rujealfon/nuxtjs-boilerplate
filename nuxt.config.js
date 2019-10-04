@@ -1,9 +1,26 @@
 import dotenv from 'dotenv'
 import routes from './routes'
 
+const DOT_ENV = dotenv.config().parsed
+let AXIOS_BASE_URL = DOT_ENV.DEV_BASE_URL
+
+switch (DOT_ENV.ENVIRONMENT) {
+  case 'test':
+    AXIOS_BASE_URL = DOT_ENV.TEST_BASE_URL
+    break
+
+  case 'prod':
+    AXIOS_BASE_URL = DOT_ENV.PROD_BASE_URL
+    break
+
+  default:
+    AXIOS_BASE_URL = DOT_ENV.DEV_BASE_URL
+    break
+}
+
 export default {
   mode: 'spa',
-  env: dotenv.config().parsed,
+  env: DOT_ENV,
 
   /*
    ** Headers of the page
@@ -93,8 +110,9 @@ export default {
     // See https://github.com/nuxt-community/axios-module#options
     baseURL:
       process.env.NODE_ENV === 'development'
-        ? 'https://localhost:8000'
-        : process.env.BASE_URL
+        ? process.env.DEV_BASE_URL
+        : AXIOS_BASE_URL,
+    debug: process.env.NODE_ENV === 'development'
   },
 
   /*
