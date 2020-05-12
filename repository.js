@@ -12,8 +12,8 @@ export default class Repository {
     return this.axios.$post(`${this.base}/create`, payload)
   }
 
-  update(id, payload) {
-    return this.axios.$put(`${this.base}/update/${id}`, payload)
+  update(payload) {
+    return this.axios.$put(`${this.base}/update/${payload.id}`, payload)
   }
 
   detail(id) {

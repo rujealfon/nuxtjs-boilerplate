@@ -62,7 +62,7 @@ gulp.task('deploy', function() {
 
   // create a cache file to speed up consecutive uploads
   // comment this if upload is not working
-  g = g.pipe(publisher.cache())
+  // g = g.pipe(publisher.cache())
 
   // print upload updates to console
   g = g.pipe(awspublish.reporter())

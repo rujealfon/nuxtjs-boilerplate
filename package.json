@@ -15,16 +15,26 @@
     "deploy": "deploy.sh"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/vue-fontawesome": "^0.1.8",
     "@nuxtjs/auth": "^4.9.0",
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/dotenv": "^1.4.1",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.7.0",
-    "nuxt": "^2.12.0"
+    "nuxt": "^2.12.0",
+    "nuxt-vue-multiselect": "^1.0.4",
+    "vue-toastr": "^2.1.2",
+    "vuejs-datepicker": "^1.6.2",
+    "vuelidate": "^0.7.4",
+    "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.1.2",
     "@nuxtjs/eslint-module": "^1.1.0",
+    "@nuxtjs/moment": "^1.4.0",
+    "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
     "concurrent-transform": "^1.0.0",
     "eslint": "^6.8.0",
@@ -34,6 +44,8 @@
     "gulp": "^4.0.2",
     "gulp-awspublish": "^4.1.1",
     "gulp-cloudfront-invalidate-aws-publish": "^1.0.0",
-    "prettier": "^1.19.1"
+    "node-sass": "^4.12.0",
+    "prettier": "^1.19.1",
+    "sass-loader": "^8.0.0"
   }
 }

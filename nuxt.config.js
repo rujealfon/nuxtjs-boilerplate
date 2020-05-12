@@ -1,5 +1,5 @@
-import dotenv from 'dotenv'
 import routes from './routes'
+import dotenv from 'dotenv'
 
 const DOT_ENV = dotenv.config().parsed
 let AXIOS_BASE_URL = DOT_ENV.DEV_BASE_URL
@@ -47,16 +47,27 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/css/global.css'],
+  css: ['@/assets/scss/global.scss'],
+
+  /*
+   ** Style Resources
+   */
+  styleResources: {
+    scss: ['./assets/scss/_variable.scss']
+  },
 
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/api.js',
-    '~/plugins/console.js',
-    '~/plugins/eventBus.js',
-    '~/plugins/filters.js'
+    { src: '~/plugins/storage.js', ssr: false },
+    { src: '~/plugins/toastr.js', ssr: false },
+    { src: '~/plugins/axios.js', ssr: false },
+    { src: '~/plugins/api.js', ssr: false },
+    { src: '~/plugins/eventBus.js', ssr: false },
+    { src: '~/plugins/fontawesome.js', ssr: false },
+    { src: '~/plugins/vue.js', ssr: false },
+    { src: '~/plugins/filters.js', ssr: false }
   ],
 
   /*
@@ -77,14 +88,30 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  devModules: [
+  buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    [
+      '@nuxtjs/eslint-module',
+      {
+        fix: true
+      }
+    ],
+
+    // Doc: https://github.com/nuxt-community/stylelint-module
+    [
+      '@nuxtjs/stylelint-module',
+      {
+        fix: true
+      }
+    ],
+
+    // https://github.com/nuxt-community/style-resources-module
+    '@nuxtjs/style-resources'
   ],
+
   /*
    ** Nuxt.js modules
    */
-
   modules: [
     // Doc: https://bootstrap-vue.js.org/docs/
     'bootstrap-vue/nuxt',
@@ -98,6 +125,8 @@ export default {
 
   // Doc: https://bootstrap-vue.js.org/docs/#nuxtjs-module
   bootstrapVue: {
+    bootstrapCSS: false,
+    bootstrapVueCSS: true,
     components: ['BModal'],
     directives: ['VBModal']
   },
@@ -149,17 +178,17 @@ export default {
      */
     extend(config, ctx) {
       // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/,
-          options: {
-            fix: true
-          }
-        })
-      }
+      // if (ctx.isDev && ctx.isClient) {
+      //   config.module.rules.push({
+      //     enforce: 'pre',
+      //     test: /\.(js|vue)$/,
+      //     loader: 'eslint-loader',
+      //     exclude: /(node_modules)/,
+      //     options: {
+      //       fix: true
+      //     }
+      //   })
+      // }
     }
   }
 }
