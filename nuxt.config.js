@@ -40,6 +40,13 @@ export default {
   },
 
   /*
+   ** Server
+   */
+  server: {
+    port: 3001
+  },
+
+  /*
    ** Customize the progress-bar color
    */
   loading: { color: '#fff' },
