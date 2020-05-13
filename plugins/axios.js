@@ -24,7 +24,7 @@ export default function({ $axios, app, store }) {
       store.dispatch('auth/clear')
 
       // redirect
-      window.location.replace(`${window.location.origin}/login`)
+      // window.location.replace(`${window.location.origin}/login`)
     }
   })
 }

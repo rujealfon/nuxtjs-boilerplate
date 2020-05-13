@@ -1,55 +1,109 @@
 <template>
-  <form class="form-signin">
-    <img
-      class="mb-4"
-      src="/docs/4.3/assets/brand/bootstrap-solid.svg"
-      alt=""
-      width="72"
-      height="72"
-    />
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input
-      id="inputEmail"
-      type="email"
-      class="form-control"
-      placeholder="Email address"
-      required
-      autofocus
-    />
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input
-      id="inputPassword"
-      type="password"
-      class="form-control"
-      placeholder="Password"
-      required
-    />
-    <div class="checkbox mb-3">
-      <label> <input type="checkbox" value="remember-me" /> Remember me </label>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">
-      Sign in
-    </button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
-  </form>
+  <section>
+    <form class="form-signin" @submit.prevent="login()">
+      <div class="form-group">
+        <label>Email address</label>
+        <input
+          v-model="$v.form.email.$model"
+          type="email"
+          class="form-control"
+          :class="{
+            'is-invalid': $v.form.email.$error || errors.email.length,
+            'is-valid': !$v.form.email.$error && $v.form.email.$dirty
+          }"
+          autofocus
+          @input="errors.email = []"
+        />
+
+        <template v-if="$v.form.email.$error">
+          <small v-if="!$v.form.email.required" class="invalid-feedback d-block"
+            >Email address is required</small
+          >
+          <small v-if="!$v.form.email.email" class="invalid-feedback d-block"
+            >Email address is invalid</small
+          >
+        </template>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          v-model="$v.form.password.$model"
+          type="password"
+          class="form-control"
+          :class="{
+            'is-invalid': $v.form.password.$error || errors.password.length,
+            'is-valid': !$v.form.password.$error && $v.form.password.$dirty
+          }"
+          @input="errors.password = []"
+        />
+
+        <template v-if="$v.form.password.$error">
+          <small
+            v-if="!$v.form.password.required"
+            class="invalid-feedback d-block"
+            >Password is required</small
+          >
+        </template>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </section>
 </template>
 
 <script>
+import { required, email } from 'vuelidate/lib/validators'
+
 export default {
   layout: 'default',
   middleware: 'guest',
-  components: {}
+
+  data: () => ({
+    form: {
+      email: '',
+      password: ''
+    },
+
+    errors: {
+      email: [],
+      password: []
+    }
+  }),
+
+  validations: {
+    form: {
+      email: { required, email },
+      password: { required }
+    }
+  },
+
+  methods: {
+    async login() {
+      // vuelidate submit
+      this.$v.form.$touch()
+
+      // check for client side validation
+      if (this.$v.form.$invalid) {
+        this.$toastr.e('There are some errors on the form')
+
+        return
+      }
+
+      try {
+        const response = await this.$api.auth.login(this.form)
+
+        this.$toastr.s(response.message)
+      } catch (error) {
+        this.$toastr.e(error)
+      }
+    }
+  }
 }
 </script>
 
-<style scoped>
-html,
-body {
-  height: 100%;
-}
-
-body {
+<style lang="scss" scoped>
+section {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -57,6 +111,8 @@ body {
   padding-top: 40px;
   padding-bottom: 40px;
   background-color: #f5f5f5;
+  justify-content: center;
+  height: 100vh;
 }
 
 .form-signin {
@@ -80,17 +136,5 @@ body {
 
 .form-signin .form-control:focus {
   z-index: 2;
-}
-
-.form-signin input[type='email'] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-signin input[type='password'] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
 }
 </style>

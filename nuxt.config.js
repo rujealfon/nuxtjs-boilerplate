@@ -108,7 +108,8 @@ export default {
     [
       '@nuxtjs/stylelint-module',
       {
-        fix: true
+        fix: true,
+        files: ['assets/**/*.{s?(a|c)ss,less,stylus}']
       }
     ],
 
@@ -122,10 +123,10 @@ export default {
   modules: [
     // Doc: https://bootstrap-vue.js.org/docs/
     'bootstrap-vue/nuxt',
+
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    // Doc: https://github.com/nuxt-community/auth-module
-    '@nuxtjs/auth',
+
     // https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv'
   ],
@@ -149,31 +150,6 @@ export default {
         ? process.env.DEV_BASE_URL
         : AXIOS_BASE_URL,
     debug: process.env.NODE_ENV === 'development'
-  },
-
-  /*
-   ** Auth
-   */
-  auth: {
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: 'session/login',
-            method: 'post',
-            propertyName: 'results.token'
-          },
-          user: { url: 'session/me', method: 'get', propertyName: 'results' },
-          logout: { url: 'session/logout', method: 'get' }
-        }
-      }
-    },
-    redirect: {
-      home: '/',
-      login: '/login',
-      logout: '/login'
-    },
-    resetOnError: true
   },
 
   /*
