@@ -132,7 +132,7 @@ export default {
 
   // Doc: https://bootstrap-vue.js.org/docs/#nuxtjs-module
   bootstrapVue: {
-    bootstrapCSS: false,
+    bootstrapCSS: true,
     bootstrapVueCSS: true,
     components: ['BModal'],
     directives: ['VBModal']

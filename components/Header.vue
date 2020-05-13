@@ -21,7 +21,7 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <nuxt-link to="/login" class="nav-link">Login</nuxt-link>
           </li>
           <li class="nav-item dropdown">
             <a
