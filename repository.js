@@ -5,7 +5,7 @@ export default class Repository {
   }
 
   search(params) {
-    return this.axios.$get(`${this.base}/search`, { params })
+    return this.axios.$get(`${this.base}`, { params })
   }
 
   create(payload) {

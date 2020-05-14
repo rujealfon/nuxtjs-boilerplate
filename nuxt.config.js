@@ -135,7 +135,7 @@ export default {
   bootstrapVue: {
     bootstrapCSS: true,
     bootstrapVueCSS: true,
-    components: ['BModal'],
+    components: ['BModal', 'BPagination'],
     directives: ['VBModal']
   },
 
