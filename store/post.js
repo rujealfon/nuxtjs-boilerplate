@@ -99,8 +99,24 @@ export const actions = {
    * @param {int} page
    */
   async searchPost({ commit }, parameters) {
+    // query
+    const query = {
+      _page: 1,
+      _limit: 10
+    }
+
+    // page
+    if (parameters && parameters._page) {
+      query._page = parameters._page
+    }
+
+    // limit
+    if (parameters && parameters._limit) {
+      query._limit = parameters._limit
+    }
+
     // api call
-    const response = await this.$api.post.search(parameters)
+    const response = await this.$api.post.search(query)
 
     commit('SET_POST', response)
   },

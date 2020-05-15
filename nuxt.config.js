@@ -54,7 +54,10 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@/assets/scss/global.scss'],
+  css: [
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    '@/assets/scss/global.scss'
+  ],
 
   /*
    ** Style Resources
@@ -135,8 +138,8 @@ export default {
   bootstrapVue: {
     bootstrapCSS: true,
     bootstrapVueCSS: true,
-    components: ['BModal', 'BPagination'],
-    directives: ['VBModal']
+    components: ['BModal', 'BPagination', 'BTooltip'],
+    directives: ['VBModal', 'VBTooltip']
   },
 
   /*

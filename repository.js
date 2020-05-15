@@ -8,23 +8,23 @@ export default class Repository {
     return this.axios.$get(`${this.base}`, { params })
   }
 
+  detail(id) {
+    return this.axios.$get(`${this.base}/${id}`)
+  }
+
   create(payload) {
-    return this.axios.$post(`${this.base}/create`, payload)
+    return this.axios.$post(`${this.base}`, payload)
   }
 
   update(payload) {
-    return this.axios.$put(`${this.base}/update/${payload.id}`, payload)
+    return this.axios.$put(`${this.base}/${payload.id}`, payload)
   }
 
-  detail(id) {
-    return this.axios.$get(`${this.base}/detail/${id}`)
+  delete(id) {
+    return this.axios.$delete(`${this.base}/${id}`)
   }
 
-  remove(id) {
-    return this.axios.$delete(`${this.base}/remove/${id}`)
-  }
-
-  restore(id) {
-    return this.axios.$put(`${this.base}/restore/${id}`)
-  }
+  // restore(id) {
+  //   return this.axios.$put(`${this.base}/${id}`)
+  // }
 }
