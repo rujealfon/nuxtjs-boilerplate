@@ -13,9 +13,6 @@ export default function({ $axios, app, store }) {
   })
 
   $axios.onError((error) => {
-    // get the error code
-    const code = parseInt(error.response && error.response.status)
-
     // catch error
     if (typeof error.response === 'undefined') {
       // display the error
@@ -25,7 +22,7 @@ export default function({ $axios, app, store }) {
     }
 
     // unauthorized
-    if (code === 401) {
+    if (parseInt(error.response && error.response.status) === 401) {
       // display the error
       $toastr.e('Session Expired')
 
