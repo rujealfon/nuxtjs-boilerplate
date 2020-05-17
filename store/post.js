@@ -56,6 +56,7 @@ export const mutations = {
    * @param {post} object
    */
   ADD_POST(state, post) {
+    console.log(post)
     state.rows.push(post)
     state.total += 1
   },
@@ -137,12 +138,12 @@ export const actions = {
           if (response.error) {
             reject(response.error)
           } else {
-            commit('ADD_POST', response.data)
+            commit('ADD_POST', response)
             resolve(response)
           }
         })
         .catch((error) => {
-          reject(error.response.data)
+          reject(error)
         })
     })
   },
@@ -160,8 +161,7 @@ export const actions = {
       this.$api.post
         .update(payload)
         .then((response) => {
-          console.log(response)
-          commit('UPDATE_POST', response.data)
+          commit('UPDATE_POST', response)
           resolve(response)
         })
         .catch((error) => {
