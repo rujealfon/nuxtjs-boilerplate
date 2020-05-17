@@ -191,9 +191,9 @@ export default {
     errors: {
       title: [],
       body: []
-    },
+    }
 
-    paginateCurrentPage: 1
+    // paginateCurrentPage: this.$query._page || 1
   }),
 
   validations: {
@@ -211,31 +211,38 @@ export default {
 
     addUpdateModalTitle() {
       return this.modalTitle === -1 ? 'Add Post' : 'Update Post'
+    },
+
+    paginateCurrentPage: {
+      get() {
+        return this.$route.query._page || 1
+      },
+
+      async set(_page) {
+        // start loading
+        this.$nuxt.$loading.start()
+
+        // api call
+        await this.$store.dispatch('post/searchPost', {
+          _page
+        })
+
+        this.$router.push({ query: { _page } })
+
+        // finish loading
+        this.$nuxt.$loading.finish()
+      }
     }
   },
 
   watch: {
     addUpdateModal(val) {
       val || this.addUpdateModalClose()
-    },
-
-    async paginateCurrentPage(_page) {
-      // start loading
-      this.$nuxt.$loading.start()
-
-      // api call
-      await this.$store.dispatch('post/searchPost', {
-        _page,
-        _limit: 10
-      })
-
-      // finish loading
-      this.$nuxt.$loading.finish()
     }
   },
 
-  async fetch({ store }) {
-    await store.dispatch('post/searchPost')
+  async fetch({ store, route }) {
+    await store.dispatch('post/searchPost', route.query)
   },
 
   methods: {
