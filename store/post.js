@@ -50,18 +50,6 @@ export const mutations = {
   },
 
   /**
-   * Add Post to the State
-   *
-   * @param {object} state
-   * @param {post} object
-   */
-  ADD_POST(state, post) {
-    console.log(post)
-    state.rows.push(post)
-    state.total += 1
-  },
-
-  /**
    * Update Post State
    *
    * @param {object} state
@@ -125,12 +113,12 @@ export const actions = {
   /**
    * Add Post to the API
    *
-   * @param {object} commit
+   * @param {object} dispatch
    * @param {object} payload
    * @reject {array} errors
    * @resolve {object} results
    */
-  addPost({ commit }, payload) {
+  addPost({ dispatch }, payload) {
     return new Promise((resolve, reject) => {
       this.$api.post
         .create(payload)
@@ -138,7 +126,7 @@ export const actions = {
           if (response.error) {
             reject(response.error)
           } else {
-            commit('ADD_POST', response)
+            dispatch('searchPost')
             resolve(response)
           }
         })
