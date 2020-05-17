@@ -49,7 +49,12 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: '~/components/loading.vue',
+
+  /*
+   ** Customize the Loading Indicator
+   */
+  loadingIndicator: '~/components/LoadingIndicator.vue',
 
   /*
    ** Global CSS
