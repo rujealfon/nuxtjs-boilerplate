@@ -3,7 +3,7 @@
     <!-- Add  -->
     <div class="d-flex justify-content-end mb-3">
       <button class="btn btn-primary" @click.prevent="addUpdateModal = true">
-        <font-awesome-icon icon="plus" /> Add User
+        <font-awesome-icon icon="plus" /> Add Post
       </button>
     </div>
 
@@ -11,43 +11,41 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">User ID</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Avatar</th>
+          <th scope="col">Post Id</th>
+          <th scope="col">User Id</th>
+          <th scope="col">Title</th>
+          <th scope="col">Body</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(user, userIndex) in users" :key="userIndex">
-          <th scope="row">{{ user.id }}</th>
-          <td>{{ user.first_name }}</td>
-          <td>{{ user.last_name }}</td>
-          <td>{{ user.email }}</td>
-          <td><img :src="user.avatar" alt="User Avatar" width="50px" /></td>
+        <tr v-for="(post, postIndex) in posts" :key="postIndex">
+          <th scope="row">{{ post.id }}</th>
+          <td>{{ post.userId }}</td>
+          <td>{{ post.title }}</td>
+          <td>{{ post.body }}</td>
           <td width="115px">
             <button
               v-b-tooltip.hover
               class="btn btn-info rounded-circle"
-              title="Update User"
-              @click.prevent="showUpdateModal(user)"
+              title="Update Post"
+              @click.prevent="showUpdateModal(post)"
             >
               <font-awesome-icon icon="pen" />
             </button>
             <button
               v-b-tooltip.hover
               class="btn btn-danger rounded-circle"
-              title="Delete User"
-              @click.prevent="showDeleteModal(user)"
+              title="Delete Post"
+              @click.prevent="showDeleteModal(post)"
             >
               <font-awesome-icon icon="trash" />
             </button>
           </td>
         </tr>
-        <tr v-if="users.length === 0">
+        <tr v-if="posts.length === 0">
           <td colspan="5" class="font-weight-bolder text-center">
-            No Users Found
+            No Posts Found
           </td>
         </tr>
       </tbody>
@@ -58,7 +56,6 @@
       v-model="paginateCurrentPage"
       pills
       :total-rows="paginateTotalPage"
-      :per-page="paginatePerPage"
       align="right"
     ></b-pagination>
 
@@ -70,11 +67,10 @@
       :no-close-on-backdrop="true"
       :no-close-on-esc="true"
     >
-      <form @submit.prevent="deleteUser()">
+      <form @submit.prevent="deletePost()">
         <div class="d-block text-center mb-3">
           <h6>
-            Are you sure you want delete "<i>{{ this.delete.fullName }}</i
-            >"?
+            Are you sure you want delete Post Id "{{ this.delete.postId }}"?
           </h6>
         </div>
         <div class="modal-action d-flex justify-content-end">
@@ -98,77 +94,48 @@
       :no-close-on-backdrop="true"
       :no-close-on-esc="true"
     >
-      <form @submit.prevent="saveUser()">
+      <form @submit.prevent="savePost()">
         <div class="mb-3">
-          <!-- First Name -->
+          <!-- Title -->
           <div class="form-group">
-            <label>First Name</label>
+            <label>Title</label>
             <input
-              v-model="$v.form.first_name.$model"
+              v-model="$v.form.title.$model"
               type="text"
               class="form-control"
               :class="{
-                'is-invalid':
-                  $v.form.first_name.$error || errors.first_name.length,
-                'is-valid':
-                  !$v.form.first_name.$error && $v.form.first_name.$dirty
+                'is-invalid': $v.form.title.$error || errors.title.length,
+                'is-valid': !$v.form.title.$error && $v.form.title.$dirty
               }"
-              @input="errors.first_name = []"
+              @input="errors.title = []"
             />
 
-            <!-- First Name Error -->
-            <template v-if="$v.form.first_name.$error">
-              <div v-if="!$v.form.first_name.required" class="invalid-feedback">
-                First Name is required
+            <!-- Title Error -->
+            <template v-if="$v.form.title.$error">
+              <div v-if="!$v.form.title.required" class="invalid-feedback">
+                Title is required
               </div>
             </template>
           </div>
 
-          <!-- Last Name -->
+          <!-- Body -->
           <div class="form-group">
-            <label>Last Name</label>
-            <input
-              v-model="$v.form.last_name.$model"
+            <label>Body</label>
+            <textarea
+              v-model="$v.form.body.$model"
               type="text"
               class="form-control"
               :class="{
-                'is-invalid':
-                  $v.form.last_name.$error || errors.last_name.length,
-                'is-valid':
-                  !$v.form.last_name.$error && $v.form.last_name.$dirty
+                'is-invalid': $v.form.body.$error || errors.body.length,
+                'is-valid': !$v.form.body.$error && $v.form.body.$dirty
               }"
-              @input="errors.last_name = []"
-            />
+              @input="errors.body = []"
+            ></textarea>
 
-            <!-- Last Name Error -->
-            <template v-if="$v.form.last_name.$error">
-              <div v-if="!$v.form.last_name.required" class="invalid-feedback">
-                Last Name is required
-              </div>
-            </template>
-          </div>
-
-          <!-- Email -->
-          <div class="form-group">
-            <label>Email</label>
-            <input
-              v-model="$v.form.email.$model"
-              type="text"
-              class="form-control"
-              :class="{
-                'is-invalid': $v.form.email.$error || errors.email.length,
-                'is-valid': !$v.form.email.$error && $v.form.email.$dirty
-              }"
-              @input="errors.email = []"
-            />
-
-            <!-- Email Error -->
-            <template v-if="$v.form.email.$error">
-              <div v-if="!$v.form.email.required" class="invalid-feedback">
-                Email is required
-              </div>
-              <div v-if="!$v.form.email.email" class="invalid-feedback">
-                Email format is invalid
+            <!-- Body Error -->
+            <template v-if="$v.form.body.$error">
+              <div v-if="!$v.form.body.required" class="invalid-feedback">
+                Body is required
               </div>
             </template>
           </div>
@@ -192,7 +159,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { email, required } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   layout: 'page',
@@ -205,63 +172,62 @@ export default {
 
     deleteModal: false,
     delete: {
-      userId: '',
-      fullName: ''
+      postId: '',
+      title: ''
     },
 
     form: {
-      first_name: '',
-      last_name: '',
-      email: ''
+      userId: 1,
+      title: '',
+      body: ''
     },
 
     formDefault: {
-      first_name: '',
-      last_name: '',
-      email: ''
+      userId: 1,
+      title: '',
+      body: ''
     },
 
     errors: {
-      first_name: '',
-      last_name: '',
-      email: ''
+      title: [],
+      body: []
     }
+
+    // paginateCurrentPage: this.$query._page || 1
   }),
 
   validations: {
     form: {
-      first_name: { required },
-      last_name: { required },
-      email: { required, email }
+      title: { required },
+      body: { required }
     }
   },
 
   computed: {
     ...mapGetters({
-      users: 'user/getUsers',
-      paginateTotalPage: 'user/getUsersTotal',
-      paginatePerPage: 'user/getUsersPage'
+      posts: 'post/getPost',
+      paginateTotalPage: 'post/getPostTotal'
     }),
 
     addUpdateModalTitle() {
-      return this.modalTitle === -1 ? 'Add User' : 'Update User'
+      return this.modalTitle === -1 ? 'Add Post' : 'Update Post'
     },
 
     paginateCurrentPage: {
       get() {
-        return this.$route.query.page || 1
+        return this.$route.query._page || 1
       },
 
-      async set(page) {
+      async set(_page) {
         // start loading
         this.$nuxt.$loading.start()
 
         // api call
-        await this.$store.dispatch('user/searchUsers', {
-          page
+        await this.$store.dispatch('post/searchPost', {
+          _page
         })
 
-        this.$router.push({ query: { page } })
+        this.$router.push({ query: { _page } })
 
         // finish loading
         this.$nuxt.$loading.finish()
@@ -276,43 +242,40 @@ export default {
   },
 
   async fetch({ store, route }) {
-    await store.dispatch('user/searchUsers', route.query)
+    await store.dispatch('post/searchPost', route.query)
   },
 
   methods: {
     async showUpdateModal(data) {
-      // change the modal title to update user
+      // change the modal title to update post
       this.modalTitle = 0
 
       // deep clone the object
-      const user = await JSON.parse(JSON.stringify(data))
+      const post = await JSON.parse(JSON.stringify(data))
 
-      // assign user object
-      this.form = { ...user }
+      // assign post to post object
+      this.form = { ...post }
 
       // show the update modal
       this.addUpdateModal = true
     },
 
-    async showDeleteModal(user) {
+    async showDeleteModal(post) {
       this.delete = await {
-        userId: user.id,
-        fullName: `${user.first_name} ${user.last_name}`
+        postId: post.id,
+        title: post.title
       }
 
       this.deleteModal = !this.deleteModal
     },
 
-    async deleteUser() {
+    async deletePost() {
       try {
         // add button loading
         this.buttonLoading = true
 
-        // delete user
-        await this.$store.dispatch('user/deleteUser', this.delete.userId)
-
-        // get all user
-        await this.$store.dispatch('user/searchUsers', this.$route.query)
+        // api call
+        await this.$store.dispatch('post/deletePost', this.delete.postId)
 
         // remove button loading
         this.buttonLoading = false
@@ -321,14 +284,14 @@ export default {
         this.deleteModal = !this.deleteModal
 
         // show success message
-        this.$toastr.s(`${this.delete.fullName} successfully deleted`)
+        this.$toastr.s(`${this.delete.postId} successfully deleted`)
       } catch (error) {
         // show error message
         this.$toastr.e(error)
       }
     },
 
-    async saveUser() {
+    async savePost() {
       // vuelidate submit
       this.$v.form.$touch()
 
@@ -342,30 +305,30 @@ export default {
       // set the payload
       const payload = this.form
 
-      // set the create user action
-      let action = 'user/addUser'
+      // set the create post action
+      let action = 'post/addPost'
 
       // set the create message
-      let message = 'User successfully created'
+      let message = 'Post successfully created'
 
-      // update user
+      // update post
       if (this.modalTitle > -1) {
-        // set the update user action
-        action = 'user/updateUser'
+        // set the update post action
+        action = 'post/updatePost'
 
         // set the updated message
-        message = 'User successfully updated'
+        message = 'Post successfully updated'
       }
 
       try {
         // add button loading
         this.buttonLoading = true
 
-        // save/update user
+        // save/update
         await this.$store.dispatch(action, payload)
 
-        // get all user
-        await this.$store.dispatch('user/searchUsers', this.$route.query)
+        // get all post
+        await this.$store.dispatch('post/searchPost', this.$route.query)
 
         // remove button loading
         this.buttonLoading = false
@@ -403,9 +366,8 @@ export default {
 
         // reset the server side validation
         this.errors = {
-          first_name: [],
-          last_name: [],
-          email: []
+          title: [],
+          body: []
         }
       }, 300)
     }

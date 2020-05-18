@@ -1,73 +1,98 @@
 /**
- * Post State
+ * User State
  * https://vuex.vuejs.org/guide/state.html
  */
 export const state = () => ({
   rows: [{}],
-  total: 100
+  perPage: 0,
+  total: 0,
+  totalPages: 0
 })
 
 /**
- * Post Getters
+ * User Getters
  * https://vuex.vuejs.org/guide/getters.html
  */
 export const getters = {
   /**
-   * Get all Posts from state
+   * Get all Users from state
    *
    * @param {object} state
    * @return {array} rows
    */
-  getPost: (state) => {
+  getUsers: (state) => {
     return state.rows
   },
 
   /**
-   * Get the total of Post
+   * Get the total of User
    *
    * @param {object} state
    * @return {int} total
    */
-  getPostTotal: (state) => {
+  getUsersTotal: (state) => {
     return state.total
+  },
+
+  /**
+   * Get the per page of User
+   *
+   * @param {object} state
+   * @return {int} perPage
+   */
+  getUsersPage: (state) => {
+    return state.perPage
   }
 }
 
 /**
- * Post Mutations
+ * Users Mutations
  *  https://vuex.vuejs.org/guide/mutations.html
  */
 export const mutations = {
   /**
-   * Update the State and set the Post
+   * Update the State and set the Users
    *
    * @param {object} state
-   * @param {object} post
+   * @param {object} users
    */
-  SET_POST(state, post) {
-    state.rows = post
-    // state.total = post.count
+  SET_USERS(state, users) {
+    state.rows = users.data
+    state.perPage = users.per_page
+    state.total = users.total
+    state.totalPages = users.total_pages
   },
 
   /**
-   * Update Post State
+   * Add user to the state
    *
    * @param {object} state
-   * @param {post} object
+   * @param {user} object
    */
-  UPDATE_POST(state, post) {
-    const index = state.rows.findIndex((row) => row.id === post.id)
-
-    Object.assign(state.rows[index], post)
+  ADD_USER(state, user) {
+    state.rows.push(user)
+    state.total += 1
   },
 
   /**
-   * Delete Post State
+   * Update User State
    *
    * @param {object} state
-   * @param {post} object
+   * @param {user} object
    */
-  DELETE_POST(state, id) {
+  UPDATE_USER(state, user) {
+    const index = state.rows.findIndex((row) => row.id === user.id)
+
+    Object.assign(state.rows[index], user)
+  },
+
+  /**
+   * Delete User State
+   *
+   * @param {object} state
+   * @param {user} object
+   */
+  DELETE_USER(state, id) {
     const index = state.rows.findIndex((row) => row.id === id)
 
     state.rows.splice(index, 1)
@@ -76,51 +101,51 @@ export const mutations = {
 }
 
 /**
- * Post Actions
+ * User Actions
  * https://vuex.vuejs.org/guide/actions.html
  */
 export const actions = {
   /**
-   * Search Posts from the API
+   * Search Users from the API
    *
    * @param {object} commit
    * @param {string} search
    * @param {int} page
    */
-  async searchPost({ commit }, parameters) {
+  async searchUsers({ commit }, parameters) {
     // query
     const query = {
-      _page: 1,
-      _limit: 10
+      page: 1,
+      per_page: 3
     }
 
     // page
-    if (parameters && parameters._page) {
-      query._page = parameters._page
+    if (parameters && parameters.page) {
+      query.page = parameters.page
     }
 
-    // limit
-    if (parameters && parameters._limit) {
-      query._limit = parameters._limit
+    // per page
+    if (parameters && parameters.per_page) {
+      query.per_page = parameters.per_page
     }
 
     // api call
-    const response = await this.$api.post.search(query)
+    const response = await this.$api.user.search(query)
 
-    commit('SET_POST', response)
+    commit('SET_USERS', response)
   },
 
   /**
-   * Add Post to the API
+   * Add User to the API
    *
    * @param {object} commit
    * @param {object} payload
    * @reject {array} errors
    * @resolve {object} results
    */
-  addPost({ commit }, payload) {
+  addUser({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      this.$api.post
+      this.$api.user
         .create(payload)
         .then((response) => {
           if (response.error) {
@@ -136,19 +161,18 @@ export const actions = {
   },
 
   /**
-   * Update Post to the API
+   * Update User to the API
    *
    * @param {object} commit
    * @param {object} payload
    * @reject {array} errors
    * @resolve {object} results
    */
-  updatePost({ commit }, payload) {
+  updateUser({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      this.$api.post
+      this.$api.user
         .update(payload)
         .then((response) => {
-          commit('UPDATE_POST', response)
           resolve(response)
         })
         .catch((error) => {
@@ -158,19 +182,18 @@ export const actions = {
   },
 
   /**
-   * Delete Post to the API
+   * Delete User to the API
    *
    * @param {object} commit
-   * @param {int} postId
+   * @param {int} userId
    * @reject {array} errorsaw
    * @resolve {object} results
    */
-  deletePost({ commit }, postId) {
+  deleteUser({ commit }, userId) {
     return new Promise((resolve, reject) => {
-      this.$api.post
-        .delete(postId)
+      this.$api.user
+        .delete(userId)
         .then((response) => {
-          commit('DELETE_POST', postId)
           resolve(response)
         })
         .catch((error) => {
