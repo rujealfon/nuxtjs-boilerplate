@@ -324,8 +324,11 @@ export default {
         // add button loading
         this.buttonLoading = true
 
-        // api call
+        // save/update
         await this.$store.dispatch(action, payload)
+
+        // get all post
+        await this.$store.dispatch('post/searchPost', this.$route.query)
 
         // remove button loading
         this.buttonLoading = false

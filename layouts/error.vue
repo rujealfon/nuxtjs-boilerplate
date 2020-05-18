@@ -49,10 +49,10 @@ section {
   background-color: #7ed0f2;
   color: #fff;
   height: 100vh;
-  padding-top: 50px;
 }
 
 .wrapper {
+  padding-top: 50px;
   position: relative;
   max-width: 1298px;
   height: auto;
@@ -62,7 +62,6 @@ section {
 /* https://www.flaticon.com/authors/vectors-market */
 /* https://www.flaticon.com/authors/icomoon */
 .box {
-  max-width: 70%;
   min-height: auto;
   margin: 0 auto;
   padding: 1em 1em;

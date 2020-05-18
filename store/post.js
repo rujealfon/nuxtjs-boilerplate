@@ -113,12 +113,12 @@ export const actions = {
   /**
    * Add Post to the API
    *
-   * @param {object} dispatch
+   * @param {object} commit
    * @param {object} payload
    * @reject {array} errors
    * @resolve {object} results
    */
-  addPost({ dispatch }, payload) {
+  addPost({ commit }, payload) {
     return new Promise((resolve, reject) => {
       this.$api.post
         .create(payload)
@@ -126,7 +126,6 @@ export const actions = {
           if (response.error) {
             reject(response.error)
           } else {
-            dispatch('searchPost')
             resolve(response)
           }
         })
