@@ -45,32 +45,34 @@ export default {
 
 <style scoped>
 section {
-  font: normal 100%/1.15 'Merriweather', serif;
   background-color: #7ed0f2;
   color: #fff;
+  font: normal 100%/1.15 'Merriweather', serif;
   height: 100vh;
 }
 
 .wrapper {
-  padding-top: 50px;
-  position: relative;
-  max-width: 1298px;
   height: auto;
   margin: auto;
+  max-width: 1298px;
+  padding-top: 50px;
+  position: relative;
 }
 
 /* https://www.flaticon.com/authors/vectors-market */
+
 /* https://www.flaticon.com/authors/icomoon */
 .box {
-  min-height: auto;
+  background:
+    url('https://www.dropbox.com/s/xq0841cp3icnuqd/flame.png?raw=1')
+    no-repeat top 10em center/128px 128px,
+    transparent
+    url('https://www.dropbox.com/s/w7qqrcvhlx3pwnf/desktop-pc.png?raw=1')
+    no-repeat top 13em center/128px 128px;
   margin: 0 auto;
+  min-height: auto;
   padding: 1em 1em;
   text-align: center;
-  background: url('https://www.dropbox.com/s/xq0841cp3icnuqd/flame.png?raw=1')
-      no-repeat top 10em center/128px 128px,
-    transparent
-      url('https://www.dropbox.com/s/w7qqrcvhlx3pwnf/desktop-pc.png?raw=1')
-      no-repeat top 13em center/128px 128px;
 }
 
 h1,
@@ -79,13 +81,13 @@ p:not(:last-of-type) {
 }
 
 h1 {
-  margin: 0 0 1rem 0;
   font-size: 8em;
+  margin: 0 0 1rem 0;
 }
 
 p {
-  margin-bottom: 0.5em;
   font-size: 3em;
+  margin-bottom: 0.5em;
 }
 
 p:first-of-type {
@@ -94,9 +96,9 @@ p:first-of-type {
 
 p > a {
   border-bottom: 1px dashed #216f79;
+  color: #216f79;
   font-style: italic;
   text-decoration: none;
-  color: #216f79;
 }
 
 p > a:hover {

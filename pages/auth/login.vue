@@ -106,22 +106,22 @@ export default {
 
 <style lang="scss" scoped>
 section {
+  align-items: center;
+  background-color: #f5f5f5;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
-  justify-content: center;
   height: 100vh;
+  justify-content: center;
+  padding-bottom: 40px;
+  padding-top: 40px;
 }
 
 .form-signin {
-  width: 100%;
+  margin: auto;
   max-width: 330px;
   padding: 15px;
-  margin: auto;
+  width: 100%;
 }
 
 .form-signin .checkbox {
@@ -129,11 +129,11 @@ section {
 }
 
 .form-signin .form-control {
-  position: relative;
   box-sizing: border-box;
+  font-size: 16px;
   height: auto;
   padding: 10px;
-  font-size: 16px;
+  position: relative;
 }
 
 .form-signin .form-control:focus {

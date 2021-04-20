@@ -1,10 +1,12 @@
 // https://stylelint.io/user-guide/configuration
 // https://maximgatilin.github.io/stylelint-config/
+// https://github.com/hudochenkov/stylelint-order
 
 module.exports = {
   // add your custom config here
   // https://github.com/stylelint/stylelint-config-standard/blob/master/index.js
 
+  plugins: ['stylelint-order'],
   rules: {
     'at-rule-empty-line-before': [
       'always',
@@ -81,6 +83,7 @@ module.exports = {
     'no-missing-end-of-source-newline': true,
     'number-leading-zero': 'always',
     'number-no-trailing-zeros': true,
+    'order/properties-alphabetical-order': true,
     'property-case': 'lower',
     'rule-empty-line-before': [
       'always-multi-line',

@@ -116,8 +116,8 @@ export default {
     [
       '@nuxtjs/stylelint-module',
       {
-        fix: true,
-        files: ['assets/**/*.{s?(a|c)ss,less,stylus}']
+        fix: true
+        // files: ['assets/**/*.{s?(a|c)ss,less,stylus}']
       }
     ],
 
