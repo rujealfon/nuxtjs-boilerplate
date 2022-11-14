@@ -7360,7 +7360,7 @@ nuxt-vue-multiselect@^1.0.4:
     core-js "^2.6.5"
     vue-multiselect "^2.1.6"
 
-nuxt@^2.12.0:
+nuxt@^2.15.8:
   version "2.15.8"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.15.8.tgz#946cba46bdaaf0e3918aa27fd9ea0fed8ed303b0"
   integrity sha512-ceK3qLg/Baj7J8mK9bIxqw9AavrF+LXqwYEreBdY/a4Sj8YV4mIvhqea/6E7VTCNNGvKT2sJ/TTJjtfQ597lTA==
